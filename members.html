@@ -27,7 +27,7 @@ if(configured){ const app=initializeApp(firebaseConfig); auth=getAuth(app); db=g
   try {
     if (!confirmation) throw new Error('Click Send OTP first.');
     const code = $('otp').value.trim();
-    if (!/^\\d{6}$/.test(code)) throw new Error('Enter the 6-digit verification code.');
+    if (!/^\d{6}$/.test(code)) throw new Error('Enter the 6-digit verification code.');
     $('verifyOtp').disabled = true;
     message('Verifying code…');
     await confirmation.confirm(code);
