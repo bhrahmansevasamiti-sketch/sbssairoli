@@ -23,9 +23,79 @@ const configured = !Object.values(firebaseConfig).some(v => v === 'REPLACE_ME');
 let auth, db, confirmation, recaptcha;
 const $ = id => document.getElementById(id);
 function message(t, bad=false){ $('loginMsg').textContent=t; $('loginMsg').classList.toggle('error',bad); }
-if(configured){ const app=initializeApp(firebaseConfig); auth=getAuth(app); db=getFirestore(app); recaptcha=new RecaptchaVerifier(auth,'recaptcha-container',{size:'normal'}); $('sendOtp').addEventListener('click',async()=>{try{let p=$('phone').value.trim().replace(/[\s()-]/g,'');if(!/^\+[1-9]\d{7,14}$/.test(p)) throw Error('Enter the number in international format, e.g. +919876543210.'); confirmation=await signInWithPhoneNumber(auth,p,recaptcha);message('OTP sent. Check your phone.');}catch(e){message(e.message,true);}}); $('verifyOtp').addEventListener('click',async()=>{try{if(!confirmation)throw Error('Request an OTP first.');await confirmation.confirm($('otp').value.trim());}catch(e){message(e.message,true);}}); onAuthStateChanged(auth,async user=>{if(!user){$('loginPanel').classList.remove('hidden');$('appPanel').classList.add('hidden');return;} await loadPortal(user);}); }
+if(configured){ const app=initializeApp(firebaseConfig); auth=getAuth(app); db=getFirestore(app); recaptcha=new RecaptchaVerifier(auth,'recaptcha-container',{size:'normal'}); $('sendOtp').addEventListener('click',async()=>{try{let p=$('phone').value.trim().replace(/[\s()-]/g,'');if(!/^\+[1-9]\d{7,14}$/.test(p)) throw Error('Enter the number in international format, e.g. +919876543210.'); confirmation=await signInWithPhoneNumber(auth,p,recaptcha);message('OTP sent. Check your phone.');}catch(e){message(e.message,true);}}); $('verifyOtp').addEventListener('click',async()=>{
+  try {
+    if (!confirmation) throw new Error('Click Send OTP first.');
+    const code = $('otp').value.trim();
+    if (!/^\\d{6}$/.test(code)) throw new Error('Enter the 6-digit verification code.');
+    $('verifyOtp').disabled = true;
+    message('Verifying code…');
+    await confirmation.confirm(code);
+    message('Phone verified. Loading your SBSS profile…');
+  } catch (e) {
+    console.error('[SBSS authentication] Verification failed:', e);
+    message(e.message || 'Verification failed. Please try again.', true);
+  } finally {
+    $('verifyOtp').disabled = false;
+  }
+}); onAuthStateChanged(auth,async user=>{if(!user){$('loginPanel').classList.remove('hidden');$('appPanel').classList.add('hidden');return;} await loadPortal(user);}); }
 else { $('sendOtp').disabled=true;$('verifyOtp').disabled=true;message('Setup required: add your Firebase project configuration in members.html, enable Phone sign-in and deploy the Firestore security rules. See SETUP-GUIDE.md.',true); }
-async function loadPortal(user){try{const phone=user.phoneNumber;if(!phone)throw Error('No verified mobile number is associated with this account.');const ref=doc(db,'members',phone);const snap=await getDoc(ref);if(!snap.exists()||snap.data().active!==true){await signOut(auth);throw Error('This mobile number is not on the SBSS authorised member list. Contact the committee.');}const m=snap.data();$('loginPanel').classList.add('hidden');$('appPanel').classList.remove('hidden');$('welcome').textContent='नमस्कार, '+(m.name||'Member');$('roleLabel').textContent=m.role==='admin'?'Committee Administrator':'Ordinary Member';$('memberStatus').textContent=m.membershipStatus||'Active';$('myContribution').textContent=m.contributionStatus||'Contact committee';$('myProfile').textContent=[m.name,phone,m.email,m.address].filter(Boolean).join(' · ');await loadEvents();if(m.role==='admin'&&user.getIdTokenResult){const token=await user.getIdTokenResult(true);if(token.claims.sbssAdmin===true){$('adminView').classList.remove('hidden');await loadAdmin();}}}catch(e){message(e.message||'Unable to load your member profile.',true);}}
+async function loadPortal(user) {
+  try {
+    const phone = user.phoneNumber;
+    if (!phone) throw new Error('No verified mobile number is associated with this account.');
+
+    // Development-only test account. Production SBSS members use members/{E.164 phone}.
+    const isTestAccount = phone === '+16505553434';
+    const recordRef = isTestAccount
+      ? doc(db, 'test_members', user.uid)
+      : doc(db, 'members', phone);
+    const snap = await getDoc(recordRef);
+
+    if (!snap.exists()) {
+      if (!isTestAccount) await signOut(auth);
+      throw new Error(isTestAccount
+        ? 'Phone verified, but no test_members document was found for this Firebase UID.'
+        : 'This mobile number is not on the SBSS authorised member list. Contact the committee.');
+    }
+
+    const m = snap.data();
+    const active = isTestAccount ? m.status === 'active' : m.active === true;
+    if (!active) {
+      if (!isTestAccount) await signOut(auth);
+      throw new Error('This account is not active. Please contact the SBSS committee.');
+    }
+
+    $('loginPanel').classList.add('hidden');
+    $('appPanel').classList.remove('hidden');
+    $('welcome').textContent = 'नमस्कार, ' + (m.name || 'Member');
+    $('roleLabel').textContent = isTestAccount
+      ? 'Development test account · ordinary member'
+      : (m.role === 'admin' ? 'Committee Administrator' : 'Ordinary Member');
+    $('memberStatus').textContent = m.membershipStatus || 'Active';
+    $('myContribution').textContent = m.contributionStatus || 'Not configured in test data';
+    $('myProfile').textContent = [m.name, phone, m.email, m.address].filter(Boolean).join(' · ');
+
+    if (isTestAccount) {
+      $('myEvents').textContent = 'Event access will be tested after event security rules are configured.';
+      $('adminView').classList.add('hidden');
+      message('Test authentication and your own test profile loaded successfully.');
+      return;
+    }
+
+    await loadEvents();
+    if (m.role === 'admin' && user.getIdTokenResult) {
+      const token = await user.getIdTokenResult(true);
+      if (token.claims.sbssAdmin === true) {
+        $('adminView').classList.remove('hidden');
+        await loadAdmin();
+      }
+    }
+  } catch (e) {
+    console.error('[SBSS portal] Profile load failed:', e);
+    message(e.message || 'Unable to load your member profile.', true);
+  }
+}
 async function loadEvents(){const snap=await getDocs(query(collection(db,'events'),where('published','==',true),orderBy('date','asc'),limit(20)));$('myEvents').innerHTML=snap.empty?'No published events at present.':snap.docs.map(d=>{const x=d.data();return `<div class="tile"><b>${escapeHtml(x.title||'SBSS Event')}</b><span>${escapeHtml(x.date||'')} ${escapeHtml(x.venue||'')}</span></div>`}).join('');}
 async function loadAdmin(){const s=await getDocs(collection(db,'members'));$('adminSummary').innerHTML=`<div class="tile"><span class="muted">Authorised member records</span><b>${s.size}</b></div>`;$('adminMembers').innerHTML=s.docs.map(d=>{const x=d.data();return `<tr><td>${escapeHtml(x.name||'')}</td><td>${escapeHtml(d.id)}</td><td>${x.active?'Active':'Inactive'}</td><td>${escapeHtml(x.membershipStatus||'')}</td></tr>`}).join('');const ev=await getDocs(collection(db,'events'));$('adminEvents').textContent=ev.size+' event records in the database.';}
 function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
