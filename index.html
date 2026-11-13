@@ -1,174 +1,110 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Shree Brahman Seva Samiti, Airoli — Seva, Sanskar, Samaj. Community service, cultural activities and transparent administration.">
-  <title>Shree Brahman Seva Samiti | Airoli</title>
-  <style>
-    :root{--maroon:#681b25;--maroon2:#42121a;--saffron:#d9822b;--cream:#fffaf0;--ink:#282323;--muted:#70666a;--line:#eadfd2}
-    *{box-sizing:border-box} html{scroll-behavior:smooth}
-    body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:#fff}
-    a{color:inherit}
-    .topline{height:5px;background:linear-gradient(90deg,var(--maroon),var(--saffron),var(--maroon))}
-    header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-    .nav{max-width:1160px;margin:auto;padding:12px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px}
-    .brand{display:flex;align-items:center;gap:12px;text-decoration:none;min-width:230px}
-    .brand img{width:58px;height:58px;object-fit:contain;border-radius:50%}
-    .brand strong{display:block;color:var(--maroon);font-size:15px;line-height:1.35}
-    .brand small{color:var(--muted);letter-spacing:1.3px;font-size:10px}
-    nav{display:flex;gap:20px;flex-wrap:wrap;justify-content:flex-end}
-    nav a{text-decoration:none;font-size:13px;font-weight:700;color:#514449}
-    nav a:hover{color:var(--saffron)}
-    .hero{background:radial-gradient(circle at 82% 20%,rgba(217,130,43,.18),transparent 28%),linear-gradient(135deg,#fffaf0,#fff 65%);padding:76px 22px 70px}
-    .hero-inner{max-width:1100px;margin:auto;display:grid;grid-template-columns:1.3fr .7fr;align-items:center;gap:40px}
-    .eyebrow{color:var(--saffron);font-weight:800;letter-spacing:2px;text-transform:uppercase;font-size:12px}
-    h1{font-family:Georgia,serif;font-size:clamp(36px,5vw,58px);line-height:1.1;color:var(--maroon2);margin:14px 0}
-    .devanagari{font-size:clamp(20px,3vw,27px);color:var(--maroon);font-weight:700;margin:0 0 12px}
-    .hero p{font-size:17px;line-height:1.75;color:#5d5355;max-width:640px}
-    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
-    .btn{display:inline-block;padding:13px 19px;border-radius:7px;text-decoration:none;font-weight:700;font-size:14px}
-    .primary{background:var(--maroon);color:#fff}.secondary{border:1px solid var(--maroon);color:var(--maroon);background:white}
-    .hero-logo{display:flex;justify-content:center}
-    .hero-logo img{width:min(310px,75%);border-radius:50%;box-shadow:0 20px 50px rgba(75,20,25,.12)}
-    .strip{background:var(--maroon);color:#fff;text-align:center;padding:15px 20px;font-family:Georgia,serif;letter-spacing:1px}
-    section{padding:68px 22px}.wrap{max-width:1100px;margin:auto}
-    .section-kicker{color:var(--saffron);font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase}
-    h2{font: bold clamp(27px,3.5vw,38px) Georgia,serif;color:var(--maroon2);margin:9px 0 14px}
-    .lead{color:var(--muted);line-height:1.8;max-width:760px}
-    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start}
-    .info-card{background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:25px}
-    .info-card strong{color:var(--maroon)}
-    .pill-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
-    .pill{background:#f8eee2;border:1px solid #ead7c3;border-radius:99px;padding:9px 13px;color:var(--maroon);font-size:13px;font-weight:700}
-    .activities{background:#fffaf5}
-    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
-    .card{padding:24px;border:1px solid var(--line);border-radius:12px;background:#fff}
-    .card .symbol{font-size:26px}.card h3{color:var(--maroon);font: bold 20px Georgia,serif;margin:12px 0 8px}
-    .card p{font-size:14px;color:var(--muted);line-height:1.7;margin:0}
-    .dashboard{background:linear-gradient(180deg,#fff,#fffaf0)}
-    .dashboard-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:22px}
-    .dashboard-frame{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 14px 38px rgba(55,20,20,.08)}
-    .dashboard-frame iframe{display:block;width:100%;height:720px;border:0;background:#fff}
-    .dashboard-fallback{padding:16px 20px;background:#fff8ec;border-top:1px solid var(--line);font-size:13px;color:#665b5b}
-    .dashboard-fallback a{color:var(--maroon);font-weight:700}
-    .notice{font-size:13px;color:#786d6d;line-height:1.6;margin-top:13px}
-    .join{background:var(--maroon2);color:#fff;text-align:center}
-    .join h2{color:#fff}.join p{color:#f0dfe0;max-width:680px;margin:0 auto;line-height:1.8}
-    .join .btn{margin-top:22px;background:var(--saffron);color:#241414}
-    .contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:26px}
-    .contact-item{padding:20px;background:var(--cream);border-radius:10px;border:1px solid var(--line)}
-    .contact-item b{display:block;color:var(--maroon);margin-bottom:7px}
-    footer{background:#241316;color:#e8dfe0;padding:25px 22px;text-align:center;font-size:12px;line-height:1.7}
-    footer span{color:#f0b36d}
-    @media(max-width:760px){.nav{align-items:flex-start}.nav nav{gap:11px;font-size:12px}.brand{min-width:0}.brand img{width:46px;height:46px}.brand strong{font-size:12px}.hero-inner,.about-grid{grid-template-columns:1fr}.hero{padding:52px 20px}.hero-logo img{width:190px}.cards{grid-template-columns:1fr}.contact-grid{grid-template-columns:1fr}.dashboard-frame iframe{height:600px}section{padding:52px 20px}}
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Shree Brahman Seva Samiti, Airoli — सेवा • संस्कार • समाज">
+<title>Shree Brahman Seva Samiti, Airoli</title>
+<style>
+:root{--wine:#641923;--wine2:#3f1018;--saffron:#d88a35;--cream:#fff9ed;--ink:#292326;--muted:#6d6265;--line:#eadccf}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font:16px/1.65 system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+a{color:inherit}.top{height:5px;background:linear-gradient(90deg,var(--wine),var(--saffron),var(--wine))}
+header{position:sticky;top:0;background:#fffefaed;backdrop-filter:blur(12px);z-index:10;border-bottom:1px solid var(--line)}
+.nav{max-width:1160px;margin:auto;padding:10px 22px;display:flex;align-items:center;gap:20px;justify-content:space-between}
+.brand{display:flex;gap:11px;align-items:center;text-decoration:none;min-width:230px}.brand img{width:52px;height:52px;object-fit:contain;border-radius:50%}
+.brand b{display:block;color:var(--wine);font-size:14px;line-height:1.3}.brand small{font-size:10px;letter-spacing:1.4px;color:var(--muted)}
+.links{display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.links a{text-decoration:none;font-size:13px;font-weight:650;color:#514449}
+.lang{border:1px solid var(--wine);border-radius:30px;padding:7px 12px;background:white;color:var(--wine);font-weight:750;cursor:pointer}
+.hero{background:radial-gradient(circle at 80% 20%,#e9b76c44,transparent 27%),linear-gradient(135deg,var(--cream),white);padding:68px 22px}
+.wrap{max-width:1120px;margin:auto}.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;align-items:center;gap:36px}
+.kicker{color:var(--saffron);font-size:12px;font-weight:850;letter-spacing:2px;text-transform:uppercase}
+h1,h2,h3{font-family:Georgia,'Noto Serif Devanagari',serif}h1{font-size:clamp(36px,5vw,58px);line-height:1.1;color:var(--wine2);margin:12px 0}
+.marathi-title{font-size:clamp(21px,3vw,29px);font-weight:800;color:var(--wine);margin:0 0 12px}
+.hero p{max-width:680px;color:#5f5558;font-size:17px}.hero-logo{text-align:center}.hero-logo img{width:min(280px,78%);border-radius:50%;box-shadow:0 18px 45px #40131b20}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.btn{display:inline-block;padding:12px 18px;border-radius:7px;text-decoration:none;font-size:14px;font-weight:750}
+.primary{background:var(--wine);color:#fff}.outline{border:1px solid var(--wine);color:var(--wine);background:white}
+.ribbon{text-align:center;background:var(--wine);color:white;padding:12px;letter-spacing:1px}
+section{padding:64px 22px}.soft{background:#fffaf4}.split{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+h2{font-size:clamp(27px,3.5vw,38px);color:var(--wine2);line-height:1.2;margin:8px 0 14px}.lead{color:var(--muted);max-width:800px}
+.panel{background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:22px}.panel b{color:var(--wine)}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.tag{background:#f8eddf;color:var(--wine);border:1px solid #ead6c0;border-radius:30px;padding:7px 12px;font-size:13px;font-weight:700}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}.card{border:1px solid var(--line);border-radius:12px;padding:21px;background:white}.card h3{color:var(--wine);font-size:20px;margin:8px 0}.card p{font-size:14px;color:var(--muted);margin:0}.emoji{font-size:26px}
+.dashboardbox{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:white;box-shadow:0 12px 32px #3e15140e}
+.dash-top{padding:22px;background:var(--cream);border-bottom:1px solid var(--line)}.dash-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.dash-placeholder{padding:34px 22px;text-align:center}.dash-placeholder .symbol{font-size:40px}.dash-placeholder p{max-width:700px;margin:10px auto;color:var(--muted)}
+.note{font-size:13px;color:#776d6e;margin-top:12px}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}.gallery figure{margin:0;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:white}.gallery img{width:100%;height:190px;object-fit:cover;display:block}.gallery figcaption{padding:12px;font-size:13px;color:var(--muted)}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.formgrid input,.formgrid select,.formgrid textarea{width:100%;padding:12px;border:1px solid #d9c9bd;border-radius:7px;font:inherit;background:white}.formgrid textarea{grid-column:1/-1;min-height:100px}.formgrid button{border:0;cursor:pointer;grid-column:1/-1;justify-self:start}
+.qrbox{border:2px dashed #cbb8a8;border-radius:12px;background:white;padding:26px;text-align:center;max-width:330px;margin-top:18px}.qrbox .qr{font-size:44px;color:#9a8580}.qrbox p{font-size:13px;color:var(--muted)}
+.dark{background:var(--wine2);color:white}.dark h2{color:white}.dark .lead{color:#eadfe0}
+.contactgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}.contact{padding:18px;border:1px solid var(--line);border-radius:10px;background:var(--cream)}.contact b{display:block;color:var(--wine)}
+footer{background:#241316;color:#eadfe0;text-align:center;padding:24px;font-size:13px}footer strong{color:#f1b56e}
+[lang="mr"]{font-family:system-ui,'Noto Sans Devanagari',sans-serif}
+@media(max-width:800px){.nav{align-items:flex-start}.links{gap:9px}.links a{font-size:12px}.hero-grid,.split{grid-template-columns:1fr}.hero{padding:48px 20px}.hero-logo img{width:180px}.cards,.gallery,.contactgrid{grid-template-columns:1fr}.gallery img{height:220px}section{padding:48px 20px}}
+@media(max-width:520px){.brand{min-width:0}.brand img{width:42px;height:42px}.brand b{font-size:11px}.brand small{font-size:8px}.links{max-width:58%}.links a{display:none}.formgrid{grid-template-columns:1fr}.formgrid textarea{grid-column:auto}}
+</style>
 </head>
 <body>
-<div class="topline"></div>
-<header>
-  <div class="nav">
-    <a class="brand" href="#home">
-      <img src="assets/sbss-logo.jpg" alt="Shree Brahman Seva Samiti emblem">
-      <span><strong>श्री ब्राह्मण सेवा समिती, ऐरोली</strong><small>SHREE BRAHMAN SEVA SAMITI</small></span>
-    </a>
-    <nav aria-label="Main navigation">
-      <a href="#about">About</a><a href="#activities">Activities</a><a href="#dashboard">Dashboard</a><a href="#membership">Membership</a><a href="#contact">Contact</a>
-    </nav>
-  </div>
-</header>
+<div class="top"></div>
+<header><div class="nav">
+<a class="brand" href="#home"><img src="assets/sbss-logo.jpg" alt="Samiti emblem"><span><b>श्री ब्राह्मण सेवा समिती, ऐरोली</b><small>SHREE BRAHMAN SEVA SAMITI</small></span></a>
+<div class="links"><a href="#about" data-en="About" data-mr="परिचय">About</a><a href="#activities" data-en="Activities" data-mr="उपक्रम">Activities</a><a href="#dashboard" data-en="Dashboard" data-mr="आर्थिक माहिती">Dashboard</a><a href="#membership" data-en="Membership" data-mr="सभासद नोंदणी">Membership</a><a href="#contact" data-en="Contact" data-mr="संपर्क">Contact</a><button class="lang" id="langBtn" type="button">मराठी</button></div>
+</div></header>
 
 <main>
-  <section class="hero" id="home">
-    <div class="hero-inner">
-      <div>
-        <div class="eyebrow">Established 2022 · Airoli, Navi Mumbai</div>
-        <p class="devanagari">सेवा • संस्कार • समाज</p>
-        <h1>Shree Brahman<br>Seva Samiti, Airoli</h1>
-        <p>A community initiative bringing people together through service, cultural traditions, spiritual activities and collective participation.</p>
-        <div class="actions">
-          <a class="btn primary" href="#activities">Explore our activities</a>
-          <a class="btn secondary" href="#dashboard">View financial dashboard</a>
-        </div>
-      </div>
-      <div class="hero-logo"><img src="assets/sbss-logo.jpg" alt="Official Samiti emblem"></div>
-    </div>
-  </section>
+<section class="hero" id="home"><div class="wrap hero-grid">
+<div>
+<div class="kicker" data-en="Established 2022 · Airoli, Navi Mumbai" data-mr="स्थापना २०२२ · ऐरोली, नवी मुंबई">Established 2022 · Airoli, Navi Mumbai</div>
+<p class="marathi-title">सेवा • संस्कार • समाज</p>
+<h1 data-en="Shree Brahman Seva Samiti, Airoli" data-mr="श्री ब्राह्मण सेवा समिती, ऐरोली">Shree Brahman Seva Samiti, Airoli</h1>
+<p data-en="A community initiative bringing people together through service, cultural values, spiritual activities and collective participation." data-mr="सेवा, सांस्कृतिक मूल्ये, धार्मिक उपक्रम आणि सामूहिक सहभाग यांच्या माध्यमातून समाजबांधवांना एकत्र आणणारा उपक्रम.">A community initiative bringing people together through service, cultural values, spiritual activities and collective participation.</p>
+<div class="actions"><a class="btn primary" href="#activities" data-en="Explore activities" data-mr="उपक्रम पहा">Explore activities</a><a class="btn outline" href="#dashboard" data-en="Financial transparency" data-mr="आर्थिक पारदर्शकता">Financial transparency</a></div>
+</div><div class="hero-logo"><img src="assets/sbss-logo.jpg" alt="Shree Brahman Seva Samiti logo"></div>
+</div></section>
+<div class="ribbon">॥ जय श्री राम ॥ &nbsp; | &nbsp; सेवा • संस्कार • समाज</div>
 
-  <div class="strip">॥ जय श्री राम ॥ &nbsp; · &nbsp; सेवा • संस्कार • समाज</div>
+<section id="about"><div class="wrap split">
+<div><div class="kicker" data-en="About the Samiti" data-mr="समितीविषयी">About the Samiti</div><h2 data-en="Rooted in values. United in service." data-mr="संस्कारांची जपणूक, सेवेसाठी एकजूट.">Rooted in values. United in service.</h2>
+<p class="lead" data-en="Shree Brahman Seva Samiti, Airoli encourages community participation, preserves cultural and spiritual traditions, and coordinates activities that bring families and society members together." data-mr="श्री ब्राह्मण सेवा समिती, ऐरोली समाजातील सहभाग वाढवणे, सांस्कृतिक व आध्यात्मिक परंपरांचे जतन करणे आणि समाजबांधवांना एकत्र आणणारे उपक्रम राबवणे यासाठी कार्यरत आहे.">Shree Brahman Seva Samiti, Airoli encourages community participation, preserves cultural and spiritual traditions, and coordinates activities that bring families and society members together.</p><div class="tags"><span class="tag">सेवा</span><span class="tag">संस्कार</span><span class="tag">समाज</span></div></div>
+<div class="panel"><p><b data-en="Registration number" data-mr="नोंदणी क्रमांक">Registration number</b><br>महा/११८५/२०२२</p><p><b data-en="Location" data-mr="पत्ता">Location</b><br>Airoli, Navi Mumbai, Maharashtra</p><p><b data-en="Guiding values" data-mr="ध्येयमूल्ये">Guiding values</b><br>सेवा • संस्कार • समाज</p></div>
+</div></section>
 
-  <section id="about">
-    <div class="wrap about-grid">
-      <div>
-        <div class="section-kicker">About the Samiti</div>
-        <h2>Rooted in values. United in service.</h2>
-        <p class="lead">Shree Brahman Seva Samiti, Airoli works to encourage community participation, preserve cultural and spiritual traditions, and coordinate activities that bring families and society members together.</p>
-        <div class="pill-row"><span class="pill">Community participation</span><span class="pill">Cultural values</span><span class="pill">Social service</span></div>
-      </div>
-      <div class="info-card">
-        <p><strong>Official name</strong><br>Shree Brahman Seva Samiti, Airoli</p>
-        <p><strong>Registration number</strong><br>महा/११८५/२०२२</p>
-        <p><strong>Location</strong><br>Airoli, Navi Mumbai, Maharashtra</p>
-        <p><strong>Guiding values</strong><br>सेवा • संस्कार • समाज</p>
-      </div>
-    </div>
-  </section>
+<section class="soft" id="activities"><div class="wrap"><div class="kicker" data-en="What we do" data-mr="आमचे उपक्रम">What we do</div><h2 data-en="Activities & community initiatives" data-mr="धार्मिक, सांस्कृतिक व सामाजिक उपक्रम">Activities & community initiatives</h2><p class="lead" data-en="Our programmes create opportunities for devotion, cultural expression, volunteering and community connection." data-mr="भक्ती, सांस्कृतिक अभिव्यक्ती, स्वयंसेवा आणि समाजातील एकोपा वाढवण्यासाठी विविध उपक्रम आयोजित केले जातात.">Our programmes create opportunities for devotion, cultural expression, volunteering and community connection.</p>
+<div class="cards">
+<article class="card"><div class="emoji">🙏</div><h3 data-en="Spiritual activities" data-mr="धार्मिक उपक्रम">Spiritual activities</h3><p data-en="Atharvashirsha recitation, Sankashti gatherings, bhajan and collective prayer." data-mr="अथर्वशीर्ष पठण, संकष्टी उपक्रम, भजन आणि सामूहिक प्रार्थना.">Atharvashirsha recitation, Sankashti gatherings, bhajan and collective prayer.</p></article>
+<article class="card"><div class="emoji">🚩</div><h3 data-en="Cultural programmes" data-mr="सांस्कृतिक कार्यक्रम">Cultural programmes</h3><p data-en="Community celebrations, traditional observances and initiatives such as Ekātmata Dindi." data-mr="सामूहिक उत्सव, पारंपरिक सण आणि एकात्मता दिंडीसारखे उपक्रम.">Community celebrations, traditional observances and initiatives such as Ekātmata Dindi.</p></article>
+<article class="card"><div class="emoji">🤝</div><h3 data-en="Community service" data-mr="समाजसेवा">Community service</h3><p data-en="Volunteering, member engagement and activities that strengthen social bonds." data-mr="स्वयंसेवा, सभासद सहभाग आणि सामाजिक बांधिलकी दृढ करणारे उपक्रम.">Volunteering, member engagement and activities that strengthen social bonds.</p></article>
+</div></div></section>
 
-  <section class="activities" id="activities">
-    <div class="wrap">
-      <div class="section-kicker">What we do</div>
-      <h2>Activities & community initiatives</h2>
-      <p class="lead">The Samiti's activities create opportunities for devotion, cultural expression, volunteering and community connection.</p>
-      <div class="cards">
-        <article class="card"><div class="symbol">🙏</div><h3>Spiritual activities</h3><p>Atharvashirsha recitation, Sankashti gatherings, bhajan and collective prayer.</p></article>
-        <article class="card"><div class="symbol">🚩</div><h3>Cultural programmes</h3><p>Community celebrations, traditional observances and initiatives such as the Ekātmata Dindi.</p></article>
-        <article class="card"><div class="symbol">🤝</div><h3>Community service</h3><p>Volunteer participation, member engagement and activities that strengthen social bonds.</p></article>
-      </div>
-    </div>
-  </section>
+<section id="dashboard"><div class="wrap"><div class="kicker" data-en="Transparency & accountability" data-mr="पारदर्शकता आणि उत्तरदायित्व">Transparency & accountability</div><h2 data-en="Financial transparency dashboard" data-mr="आर्थिक पारदर्शकता डॅशबोर्ड">Financial transparency dashboard</h2><p class="lead" data-en="A public summary of the supplied bank statements, with individual payer details and transaction references withheld for privacy." data-mr="उपलब्ध बँक स्टेटमेंटचा सार्वजनिक सारांश. वैयक्तिक देणगीदारांची माहिती आणि व्यवहार संदर्भ गोपनीय ठेवले आहेत.">A public summary of the supplied bank statements, with individual payer details and transaction references withheld for privacy.</p><div class="dashboardbox"><iframe src="financial-dashboard.html" title="SBSS Financial Transparency Dashboard" style="width:100%;height:1050px;border:0;background:white" loading="lazy"></iframe></div><p class="note" data-en="Figures are bank-statement summaries, not audited annual accounts. The 2026 opening-balance difference is flagged inside the dashboard for reconciliation." data-mr="ही बँक स्टेटमेंटवर आधारित माहिती आहे; अंतिम लेखापरीक्षित वार्षिक खाती नाहीत. २०२६ मधील प्रारंभिक शिल्लक फरक ताळमेळासाठी डॅशबोर्डमध्ये नमूद केला आहे.">Figures are bank-statement summaries, not audited annual accounts. The 2026 opening-balance difference is flagged inside the dashboard for reconciliation.</p></div></section>
 
-  <section class="dashboard" id="dashboard">
-    <div class="wrap">
-      <div class="dashboard-head">
-        <div><div class="section-kicker">Transparency & accountability</div><h2>Financial dashboard</h2><p class="lead">Explore the Samiti's financial dashboard and review the information made available by the committee.</p></div>
-        <a class="btn primary" href="https://notebook.google.com/notebook/79c30633-7269-4575-98a0-e351b2cd5dbe/artifact/98a2372f-0793-4300-8637-a958555a0d9a?authuser=4&pageId=none" target="_blank" rel="noopener">Open dashboard ↗</a>
-      </div>
-      <div class="dashboard-frame">
-        <iframe title="SBSS financial dashboard" src="https://notebook.google.com/notebook/79c30633-7269-4575-98a0-e351b2cd5dbe/artifact/98a2372f-0793-4300-8637-a958555a0d9a?authuser=4&pageId=none" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-        <div class="dashboard-fallback">If the dashboard does not appear inside this page, <a href="https://notebook.google.com/notebook/79c30633-7269-4575-98a0-e351b2cd5dbe/artifact/98a2372f-0793-4300-8637-a958555a0d9a?authuser=4&pageId=none" target="_blank" rel="noopener">open it directly in a new tab</a>.</div>
-      </div>
-      <p class="notice">Dashboard access depends on the sharing permissions set by its owner. Before publishing, check that the dashboard contains only information intended for public viewing. Do not publish member phone numbers, personal details, bank account information or transaction identifiers.</p>
-    </div>
-  </section>
+<section class="soft" id="gallery"><div class="wrap"><div class="kicker" data-en="Moments together" data-mr="आठवणींचे क्षण">Moments together</div><h2 data-en="Events & photo gallery" data-mr="कार्यक्रम आणि छायाचित्रे">Events & photo gallery</h2><p class="lead" data-en="A space for photographs and highlights from Samiti programmes. Replace these sample tiles with approved event photographs before publishing." data-mr="समितीच्या कार्यक्रमांची छायाचित्रे आणि ठळक क्षणांसाठी हे दालन आहे. प्रकाशित करण्यापूर्वी नमुना चित्रांच्या जागी समितीने मंजूर केलेली कार्यक्रम छायाचित्रे जोडा.">A space for photographs and highlights from Samiti programmes. Replace these sample tiles with approved event photographs before publishing.</p>
+<div class="gallery"><figure><img src="assets/samiti-letterhead.png" alt="Samiti letterhead"><figcaption data-en="Samiti identity and official communication" data-mr="समितीची ओळख आणि अधिकृत पत्रव्यवहार">Samiti identity and official communication</figcaption></figure><figure><img src="assets/sbss-logo.jpg" alt="Samiti emblem"><figcaption data-en="Shree Brahman Seva Samiti, Airoli" data-mr="श्री ब्राह्मण सेवा समिती, ऐरोली">Shree Brahman Seva Samiti, Airoli</figcaption></figure><figure><div style="height:190px;background:linear-gradient(135deg,#fff0d6,#f3d5b6);display:grid;place-items:center;font-size:48px">📷</div><figcaption data-en="Add an approved event photograph here" data-mr="येथे कार्यक्रमाचे मंजूर छायाचित्र जोडा">Add an approved event photograph here</figcaption></figure></div></div></section>
 
-  <section class="join" id="membership">
-    <div class="wrap">
-      <div class="section-kicker" style="color:#f4b76c">Be part of the community</div>
-      <h2>Connect. Participate. Contribute.</h2>
-      <p>Interested in participating in Samiti activities or learning about membership? Connect with the committee for current information and guidance.</p>
-      <a class="btn" href="#contact">Get in touch</a>
-    </div>
-  </section>
+<section id="membership"><div class="wrap split"><div><div class="kicker" data-en="Join the community" data-mr="सभासद व्हा">Join the community</div><h2 data-en="Membership enquiry" data-mr="सभासद नोंदणी चौकशी">Membership enquiry</h2><p class="lead" data-en="Interested in becoming a member or volunteering? Send an enquiry to the committee. This starter form opens your email app; it does not store personal data on the website." data-mr="सभासद होण्याची किंवा स्वयंसेवक म्हणून सहभागी होण्याची इच्छा आहे? समितीकडे चौकशी पाठवा. हा फॉर्म तुमचा ई-मेल अॅप उघडतो; वेबसाइटवर वैयक्तिक माहिती साठवत नाही.">Interested in becoming a member or volunteering? Send an enquiry to the committee. This starter form opens your email app; it does not store personal data on the website.</p></div>
+<div class="panel"><form id="memberForm" class="formgrid"><input required name="name" placeholder="Full name / पूर्ण नाव"><input required name="mobile" type="tel" placeholder="Mobile number / मोबाईल क्रमांक"><input name="email" type="email" placeholder="Email / ई-मेल"><select name="interest"><option value="Membership enquiry">Membership / सभासदत्व</option><option value="Volunteering">Volunteering / स्वयंसेवा</option><option value="Event participation">Event participation / कार्यक्रम सहभाग</option></select><textarea name="message" placeholder="Message / संदेश"></textarea><button class="btn primary" type="submit" data-en="Prepare enquiry email" data-mr="चौकशीचा ई-मेल तयार करा">Prepare enquiry email</button></form><p class="note" data-en="The committee's confirmed official email address must be inserted in the website code before this form can send enquiries." data-mr="हा फॉर्म कार्यान्वित करण्यासाठी समितीचा अधिकृत ई-मेल पत्ता वेबसाइट कोडमध्ये निश्चित करून टाकणे आवश्यक आहे.">The committee's confirmed official email address must be inserted in the website code before this form can send enquiries.</p></div></div></section>
 
-  <section id="contact">
-    <div class="wrap">
-      <div class="section-kicker">Reach us</div>
-      <h2>Contact the Samiti</h2>
-      <p class="lead">For membership enquiries, activity information or volunteering, please contact the committee through its official channels.</p>
-      <div class="contact-grid">
-        <div class="contact-item"><b>Location</b>Airoli, Navi Mumbai<br>Maharashtra, India</div>
-        <div class="contact-item"><b>Registration</b>महा/११८५/२०२२</div>
-        <div class="contact-item"><b>Official website</b>Contact details can be added here after confirmation by the committee.</div>
-      </div>
-    </div>
-  </section>
+<section class="dark" id="donate"><div class="wrap split"><div><div class="kicker" style="color:#f0b76f" data-en="Support community initiatives" data-mr="समितीच्या उपक्रमांना सहकार्य करा">Support community initiatives</div><h2 data-en="Voluntary donations" data-mr="ऐच्छिक देणगी">Voluntary donations</h2><p class="lead" data-en="Contributions may be made only through the Samiti's verified official payment QR code or bank details communicated by the committee. Please verify the recipient name before paying." data-mr="देणगी समितीच्या अधिकृत व सत्यापित पेमेंट QR कोडद्वारे किंवा समितीने कळवलेल्या बँक तपशीलांद्वारेच द्यावी. पैसे पाठवण्यापूर्वी प्राप्तकर्त्याचे नाव तपासा.">Contributions may be made only through the Samiti's verified official payment QR code or bank details communicated by the committee. Please verify the recipient name before paying.</p></div>
+<div class="qrbox"><div class="qr">▦</div><b data-en="Official donation QR code" data-mr="अधिकृत देणगी QR कोड">Official donation QR code</b><p data-en="QR code not yet supplied. The committee's verified QR image must be added here. Do not scan or pay using a sample code." data-mr="QR कोड अद्याप उपलब्ध नाही. समितीचा सत्यापित QR फोटो येथे जोडणे आवश्यक आहे. नमुना कोड स्कॅन करून पैसे पाठवू नका.">QR code not yet supplied. The committee's verified QR image must be added here. Do not scan or pay using a sample code.</p></div></div></section>
+
+<section id="contact"><div class="wrap"><div class="kicker" data-en="Reach us" data-mr="संपर्क">Reach us</div><h2 data-en="Contact the Samiti" data-mr="समितीशी संपर्क साधा">Contact the Samiti</h2><p class="lead" data-en="Official contact information will be published after the committee confirms the current email address, phone number and WhatsApp contact." data-mr="समितीकडून सध्याचा अधिकृत ई-मेल, फोन नंबर आणि WhatsApp संपर्क निश्चित झाल्यानंतर येथे प्रकाशित केला जाईल.">Official contact information will be published after the committee confirms the current email address, phone number and WhatsApp contact.</p><div class="contactgrid"><div class="contact"><b data-en="Location" data-mr="ठिकाण">Location</b>Airoli, Navi Mumbai, Maharashtra</div><div class="contact"><b data-en="Registration" data-mr="नोंदणी">Registration</b>महा/११८५/२०२२</div><div class="contact"><b data-en="Official channels" data-mr="अधिकृत संपर्क">Official channels</b><span data-en="To be confirmed by committee" data-mr="समितीकडून निश्चित करणे बाकी">To be confirmed by committee</span></div></div></div></section>
 </main>
-
-<footer>
-  <div>श्री ब्राह्मण सेवा समिती, ऐरोली</div>
-  <span>सेवा • संस्कार • समाज</span><br>
-  © <span id="year"></span> Shree Brahman Seva Samiti, Airoli. All rights reserved.
-</footer>
-<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
-</body>
-</html>
+<footer>श्री ब्राह्मण सेवा समिती, ऐरोली<br><strong>सेवा • संस्कार • समाज</strong><br>© <span id="year"></span> Shree Brahman Seva Samiti, Airoli</footer>
+<script>
+let currentLang='en';
+document.getElementById('langBtn').addEventListener('click',()=>{
+ currentLang=currentLang==='en'?'mr':'en';
+ document.documentElement.lang=currentLang;
+ document.querySelectorAll('[data-en][data-mr]').forEach(el=>{el.textContent=el.dataset[currentLang]});
+ document.getElementById('langBtn').textContent=currentLang==='en'?'मराठी':'English';
+});
+document.getElementById('year').textContent=new Date().getFullYear();
+document.getElementById('memberForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ const d=new FormData(e.target);
+ const subject=encodeURIComponent('SBSS Membership / Participation Enquiry');
+ const body=encodeURIComponent(`Name: ${d.get('name')}\nMobile: ${d.get('mobile')}\nEmail: ${d.get('email')}\nInterest: ${d.get('interest')}\nMessage: ${d.get('message')}`);
+ // Replace the placeholder address below with the Samiti's verified official mailbox.
+ window.location.href=`mailto:REPLACE_WITH_OFFICIAL_EMAIL?subject=${subject}&body=${body}`;
+});
+</script>
+</body></html>

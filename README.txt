@@ -1,32 +1,23 @@
-SHREE BRAHMAN SEVA SAMITI, AIROLI — WEBSITE STARTER
+SBSS BILINGUAL WEBSITE + FINANCIAL DASHBOARD UPDATE
 
-Files:
-- index.html: complete responsive website
-- assets/sbss-logo.jpg: Samiti emblem
+Upload/replace index.html and upload the complete assets folder PLUS:
+- financial-dashboard.html
+- financial-data.json
 
-FREE HOSTING OPTION: GITHUB PAGES
-1. Create/sign in to a GitHub account.
-2. Create a NEW PUBLIC repository named: sbss-airoli-website
-3. Upload index.html and the assets folder (keep the folder structure).
-4. Open repository Settings > Pages.
-5. Under Build and deployment, choose Deploy from a branch.
-6. Select branch 'main' and folder '/ (root)', then Save.
-7. GitHub will publish the site at a URL similar to:
-   https://YOUR-USERNAME.github.io/sbss-airoli-website/
+The dashboard uses the supplied bank statements:
+- 2025 first half
+- 2025 second half
+- 2026 first half (transactions through 10 July 2026)
 
-DASHBOARD:
-The dashboard URL supplied by the Samiti has been added as an embedded iframe
-and as a direct 'Open dashboard' link. Some Google artifact pages may block
-embedding in third-party sites. If that happens, the direct link remains available.
-Before publishing, test the link in a private/incognito browser window.
+Privacy: donor/payer names, UPI IDs, transaction references and account numbers are not published. The public dashboard shows aggregate period totals and date/category-level transaction summaries only.
 
-IMPORTANT PRIVACY CHECK:
-The dashboard is intended to be publicly showcased. Confirm that the sharing
-permissions are appropriate and that no private member data, phone numbers,
-bank account details, transaction IDs, or other sensitive information are exposed.
-The website itself does not collect or store visitor data.
+Important accounting caveats:
+1. These are bank-statement summaries, not audited annual accounts.
+2. The 2026 statement header opening balance is ₹1,18,043.52, while 2025 closing balance is ₹1,17,042.52. The ₹1,001 difference corresponds to a 6 Jan 2026 receipt shown in the statement and requires confirmation in formal bank reconciliation.
+3. The 2026 Audit Records workbook supplied is a blank management template, not a completed ledger.
+4. Do not publish private member registers, bank account numbers, donor names, UPI IDs, transaction references or supporting proofs on the public website.
 
-CUSTOMIZE BEFORE PUBLISHING:
-- Add the Samiti's approved contact email, phone number and WhatsApp link.
-- Add approved event photographs and social links if desired.
-- Confirm the wording and registration details with the committee.
+Other website items still require committee-supplied information:
+- Replace REPLACE_WITH_OFFICIAL_EMAIL in index.html with the verified official email.
+- Add the verified official donation QR image (do not use a sample QR).
+- Replace gallery placeholders with approved event photographs.
