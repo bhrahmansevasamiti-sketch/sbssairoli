@@ -1,0 +1,1 @@
+Firebase web app configuration inserted into members.html. Project: sbss-airoli. App ID: 1:1085384432551:web:7d79283bd2880904f03482. Web API key is not an Admin SDK secret; restrict API key HTTP referrers in Google Cloud Console. Never commit service account private keys.

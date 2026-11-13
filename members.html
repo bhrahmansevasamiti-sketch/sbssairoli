@@ -10,7 +10,15 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getFirestore, doc, getDoc, collection, getDocs, query, where, orderBy, limit } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 // Replace with the SBSS Firebase web-app configuration. This config is not a password; Firestore rules protect the data.
-const firebaseConfig = { apiKey: 'REPLACE_ME', authDomain: 'REPLACE_ME', projectId: 'REPLACE_ME', appId: 'REPLACE_ME' };
+const firebaseConfig = {
+  apiKey: 'AIzaSyCTX_iGtLjv515VHhTRzgW0KxYDoBgF6Yw',
+  authDomain: 'sbss-airoli.firebaseapp.com',
+  projectId: 'sbss-airoli',
+  storageBucket: 'sbss-airoli.firebasestorage.app',
+  messagingSenderId: '1085384432551',
+  appId: '1:1085384432551:web:7d79283bd2880904f03482',
+  measurementId: 'G-HSRJW4K389'
+};
 const configured = !Object.values(firebaseConfig).some(v => v === 'REPLACE_ME');
 let auth, db, confirmation, recaptcha;
 const $ = id => document.getElementById(id);

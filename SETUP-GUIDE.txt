@@ -1,27 +1,33 @@
 SBSS WEBSITE + PRIVATE MEMBERS PORTAL — GITHUB DEPLOYMENT
 ========================================================
 
+FIREBASE WEB CONFIGURATION
+- The supplied Firebase web configuration has been inserted into members.html.
+- Firebase project: sbss-airoli.
+- Web app ID: 1:1085384432551:web:7d79283bd2880904f03482.
+- A Firebase web API key is an identifier, not an Admin SDK secret. Restrict its usage in Google Cloud Console to the SBSS GitHub Pages HTTP referrer and the APIs required by Firebase. Never publish service-account JSON/private keys.
+
 WHAT IS INCLUDED
 - index.html: public bilingual SBSS website. Financial transaction dashboard and bank-statement data are removed.
-- members.html: phone OTP login and role-aware private portal shell.
+- members.html: phone OTP login and role-aware private portal shell, now populated with your Firebase web configuration.
 - firestore.rules: Firestore access rules. Members can read their own member record and own contribution record; admins with a server-set custom claim can manage all records.
-- assets/sbss-logo.jpg: existing SBSS logo asset.
+- member-import-template.csv: template only; do not put real member data in the public repository.
+- assets/sbss-logo.jpg: SBSS logo.
 
 IMPORTANT SECURITY LIMITATIONS
-1. GitHub Pages is static hosting. It cannot itself securely authenticate users or protect data.
-2. This portal requires a Firebase project, Phone Authentication, Firestore, and the supplied Firestore rules.
-3. The Firebase web config placeholders in members.html must be replaced with your Firebase project's web config.
-4. Enable Phone provider in Firebase Authentication and configure the authorised domains, including your GitHub Pages domain.
-5. Do not place the Excel member list, member data exports, bank statements, or the old static dashboard containing embedded personal data in this public GitHub repository.
-6. Do not use a mobile number as a password. This implementation uses SMS OTP. A phone number is an identifier, not a secret.
-7. The admin role must be granted using Firebase Admin SDK in a trusted server environment. Never add an admin flag from browser JavaScript or trust a role field supplied by a user.
-8. Firestore records must be keyed by the verified E.164 phone number. Example: +919876543210. Set active=true only for approved members.
-9. Import the member master list privately, after verifying each member and normalising phone numbers. The Excel file itself stays offline/private. The current code does not automatically import Excel.
+1. GitHub Pages is static hosting. It cannot itself securely authenticate users or protect data. Firebase Authentication and Firestore rules provide the access control.
+2. The Firebase project has Phone Authentication enabled, India SMS region configured, GitHub Pages hostname authorised, and Firestore created in production mode, according to the setup screenshots.
+3. Keep Firestore rules locked until the approved data structure and server-side admin assignment process have been tested. The rules file is a proposed policy and must be reviewed against the final data model before publishing.
+4. Do not place the Excel member list, member data exports, bank statements, service-account credentials, or the old static dashboard containing embedded personal data in this public GitHub repository.
+5. This implementation uses SMS OTP. A phone number is an identifier, not a password.
+6. Admin role must be granted using Firebase Admin SDK in a trusted server environment. Never add an admin flag from browser JavaScript or trust a role field supplied by a user.
+7. Current starter portal expects member documents in `members` keyed by verified E.164 phone number, for example +919876543210. Set active=true only for approved members. The existing security rules use the verified phone claim to restrict members to their own document.
+8. Do not import the Excel list until the administrator claims, rules, and final data structure are implemented and tested.
 
-FIRESTORE DATA SHAPE (suggested)
+FIRESTORE DATA SHAPE (current starter expectation)
 Collection: members
 Document ID: +91XXXXXXXXXX
-Fields: name (string), active (boolean), role ('member' or 'admin'), membershipStatus (string), contributionStatus (string), email (optional), address (optional).
+Fields: name (string), active (boolean), role ('member' or 'admin' for display only; NOT trusted for security), membershipStatus (string), contributionStatus (string), email (optional), address (optional).
 
 Collection: events
 Document ID: generated ID
@@ -35,25 +41,19 @@ Collection: attendance
 Admin-only records.
 
 DEPLOYMENT TO GITHUB PAGES
-1. Open your public repository: https://github.com/bhrahmansevasamiti-sketch/sbssairoli
-2. Upload the contents of this folder to the repository's configured Pages publishing folder (usually the main branch root).
-3. Do NOT upload the original SBSS_Member_Directory___Events_Dashboard.html, Excel member list, or audit/bank files.
+1. Open https://github.com/bhrahmansevasamiti-sketch/sbssairoli
+2. Upload the contents of this folder to the repository's configured Pages publishing folder (usually main branch root).
+3. Do NOT upload the original member dashboard HTML, Excel member list, audit/bank files, service-account credentials, or private exports.
 4. In Settings > Pages, verify the publishing branch and folder.
-5. Before enabling the portal link for members, complete Firebase setup and test with one ordinary member and one administrator account.
+5. Do not announce the portal to members until backend setup and access tests are complete.
 
-FIREBASE SETUP CHECKLIST
-A. Create a Firebase project at https://console.firebase.google.com/ and register a Web app.
-B. Enable Authentication > Sign-in method > Phone.
-C. Create a Cloud Firestore database.
-D. Add the GitHub Pages hostname under Authentication > Settings > Authorized domains.
-E. Replace the firebaseConfig placeholders in members.html with the Firebase web-app configuration.
-F. Publish firestore.rules from Firebase Console > Firestore Database > Rules.
-G. Privately create/import approved member documents. Do not put the source Excel in GitHub.
-H. Grant the sbssAdmin custom claim to designated administrators using Firebase Admin SDK from a trusted server only.
-I. Test ordinary member access: own profile and own contribution only. Test admin access: all records. Test an unapproved phone: access denied.
+REMAINING FIREBASE WORK
+A. Review and publish Firestore rules only after confirming the final collection/document model.
+B. Add an authorised member registry privately. The source Excel file stays offline/private.
+C. Create a trusted server-side admin bootstrap process to assign the `sbssAdmin=true` custom claim to the three named administrators after each has signed in and their Firebase Auth UID/verified phone has been checked.
+D. Ensure the admin claim is granted only by trusted server code, never from this static website.
+E. Test with one ordinary member, each administrator, and an unapproved phone number.
+F. Implement full member management, event CRUD, attendance, contribution management and a secure import workflow. These functions are not yet complete in this starter portal.
 
-ADMIN CLAIM NOTE
-The rules require the custom auth token claim sbssAdmin=true. It must be assigned server-side with Firebase Admin SDK and refreshed by signing out/in or refreshing the ID token. Do not attempt to assign this claim from members.html.
-
-CURRENT IMPLEMENTATION STATUS
-This is a deployable front-end starter, not a fully provisioned live system. The portal will remain in setup-required mode until Firebase configuration, authorised member records, admin claims, and Firestore rules are configured. Event/member management CRUD screens and Excel import workflow still need to be connected/implemented before operational use.
+CURRENT STATUS
+Firebase web configuration is inserted. This package is still a front-end starter, not a fully provisioned operational portal. Admin claims, member data, final rules validation, backend administration and management functions remain outstanding.
