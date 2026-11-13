@@ -1,0 +1,59 @@
+SBSS WEBSITE + PRIVATE MEMBERS PORTAL — GITHUB DEPLOYMENT
+========================================================
+
+WHAT IS INCLUDED
+- index.html: public bilingual SBSS website. Financial transaction dashboard and bank-statement data are removed.
+- members.html: phone OTP login and role-aware private portal shell.
+- firestore.rules: Firestore access rules. Members can read their own member record and own contribution record; admins with a server-set custom claim can manage all records.
+- assets/sbss-logo.jpg: existing SBSS logo asset.
+
+IMPORTANT SECURITY LIMITATIONS
+1. GitHub Pages is static hosting. It cannot itself securely authenticate users or protect data.
+2. This portal requires a Firebase project, Phone Authentication, Firestore, and the supplied Firestore rules.
+3. The Firebase web config placeholders in members.html must be replaced with your Firebase project's web config.
+4. Enable Phone provider in Firebase Authentication and configure the authorised domains, including your GitHub Pages domain.
+5. Do not place the Excel member list, member data exports, bank statements, or the old static dashboard containing embedded personal data in this public GitHub repository.
+6. Do not use a mobile number as a password. This implementation uses SMS OTP. A phone number is an identifier, not a secret.
+7. The admin role must be granted using Firebase Admin SDK in a trusted server environment. Never add an admin flag from browser JavaScript or trust a role field supplied by a user.
+8. Firestore records must be keyed by the verified E.164 phone number. Example: +919876543210. Set active=true only for approved members.
+9. Import the member master list privately, after verifying each member and normalising phone numbers. The Excel file itself stays offline/private. The current code does not automatically import Excel.
+
+FIRESTORE DATA SHAPE (suggested)
+Collection: members
+Document ID: +91XXXXXXXXXX
+Fields: name (string), active (boolean), role ('member' or 'admin'), membershipStatus (string), contributionStatus (string), email (optional), address (optional).
+
+Collection: events
+Document ID: generated ID
+Fields: title (string), date (ISO date string), venue (string), published (boolean).
+
+Collection: contributions
+Document ID: generated ID
+Fields: memberPhone (E.164 string), status (string), period (string). Only that member and admins can read it under the rules.
+
+Collection: attendance
+Admin-only records.
+
+DEPLOYMENT TO GITHUB PAGES
+1. Open your public repository: https://github.com/bhrahmansevasamiti-sketch/sbssairoli
+2. Upload the contents of this folder to the repository's configured Pages publishing folder (usually the main branch root).
+3. Do NOT upload the original SBSS_Member_Directory___Events_Dashboard.html, Excel member list, or audit/bank files.
+4. In Settings > Pages, verify the publishing branch and folder.
+5. Before enabling the portal link for members, complete Firebase setup and test with one ordinary member and one administrator account.
+
+FIREBASE SETUP CHECKLIST
+A. Create a Firebase project at https://console.firebase.google.com/ and register a Web app.
+B. Enable Authentication > Sign-in method > Phone.
+C. Create a Cloud Firestore database.
+D. Add the GitHub Pages hostname under Authentication > Settings > Authorized domains.
+E. Replace the firebaseConfig placeholders in members.html with the Firebase web-app configuration.
+F. Publish firestore.rules from Firebase Console > Firestore Database > Rules.
+G. Privately create/import approved member documents. Do not put the source Excel in GitHub.
+H. Grant the sbssAdmin custom claim to designated administrators using Firebase Admin SDK from a trusted server only.
+I. Test ordinary member access: own profile and own contribution only. Test admin access: all records. Test an unapproved phone: access denied.
+
+ADMIN CLAIM NOTE
+The rules require the custom auth token claim sbssAdmin=true. It must be assigned server-side with Firebase Admin SDK and refreshed by signing out/in or refreshing the ID token. Do not attempt to assign this claim from members.html.
+
+CURRENT IMPLEMENTATION STATUS
+This is a deployable front-end starter, not a fully provisioned live system. The portal will remain in setup-required mode until Firebase configuration, authorised member records, admin claims, and Firestore rules are configured. Event/member management CRUD screens and Excel import workflow still need to be connected/implemented before operational use.
